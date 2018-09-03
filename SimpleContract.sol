@@ -1,9 +1,11 @@
 pragma solidity 0.4.24;
 contract SimpleContract{
-    int counter;//state var of the contract
-    //public keyword means this functin can be invoked by anyone with the source code of the contract
+    int256 counter;//state var of the contract, int is the same as int256
+    address owner;//address is built in type in solidity and so it can be a user address or a contract address 
+    //public keyword means this function can be invoked by anyone with the source code of the contract
     constructor() public{
         counter =0;
+        owner = msg.sender;// msg is a global variable available in solidity,
     }
     // view keyword implies that it can't be used to change the values of the state variables(kinda like a const function)
     function getCounter() view public returns(int){
@@ -19,6 +21,9 @@ contract SimpleContract{
     function decrement() public{
         counter-=1;
     }
-    
-    //the initial deployment costs some gas too becasue it is essentially a transaction -- a special type of transaction which involves invocation of the constructor SimpleContract.(constructor)
+    function reset() public{
+        require(msg.sender == owner);
+        counter=0;
+    }
+    // the initial deployment costs some gas too becasue it is essentially a transaction -- a special type of transaction which involves 
 }
